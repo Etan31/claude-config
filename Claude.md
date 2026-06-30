@@ -41,7 +41,21 @@ Guidance for Claude Code working with code in this repository.
 
 ### Frontend (React)
 
-- Organize code: `components/`, `pages/`, `hooks/`, `utils/`, `services/`, `assets/`, `validators/`, `helpers/`.
+-- **Directory Structure:** Group by feature modules to separate Client and Backend contexts cleanly.
+```text
+src/
+├── components/           # Shared UI building blocks (ui/, layout/)
+├── features/             # Business logic grouped by domain
+│   ├── admin/            # Admin components, hooks, services
+│   ├── client/           # Client-facing components, hooks, services
+│   └── auth/             # Shared Auth logic and ProtectedRoutes
+├── pages/                # Page views/routing layer (Imports from features/)
+│   ├── admin/            # /admin/dashboard, /admin/settings folders
+│   └── client/           # /home, /profile folders
+├── utils/                # Pure helper functions
+└── context/              # Global state (AuthContext, ThemeContext)
+```
+- Component Placement: Use component-per-folder grouping. Keep styles, types, and logic scoped locally (e.g., pages/admin/dashboard/DashboardPage.jsx and DashboardPage.css live together).
 - One component per file; break large components into smaller, reusable pieces.
 - Prefer functional components with hooks over class components.
 - Memoize expensive computations and callbacks (`useMemo`, `useCallback`).
