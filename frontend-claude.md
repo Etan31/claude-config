@@ -184,6 +184,20 @@ catch (error) {
 - Use Zod for schema validation in `validators/`.
 - Reject missing or malformed data early with clear inline feedback.
 
+### Logo & Favicon
+Default theme for any new project's logo/favicon: a one- or two-letter monogram badge, not an abstract icon or mascot. Document the contract here per project so it's reused, not reinvented.
+
+**Pattern:**
+- **Shape:** pick per project instead of defaulting to rounded-square every time. Choose by theme: **squircle/rounded-square** (default, neutral; corner radius 25-30% of the box side), **circle** (social/conversational apps), **hexagon** (gamified/scoring/leveling apps — reads as an achievement badge), **pentagon/shield** (security/trust-first apps — use sparingly). Soften corners slightly regardless of shape, and center the monogram on the shape's true geometric center, not its bounding box.
+- **Colors:** near-black background with a visible hue cast toward the brand's primary color (not pure black/gray), with the letter in a bright accent color so it pops against the dark box. Avoid plain white-on-brand or brand-on-white.
+- **Font:** the project's display/heading font, bold weight (600-800), as a real `<text>` element rather than a hand-drawn glyph.
+- **Two render targets, same design:**
+  1. `public/favicon.svg` (or equivalent) — renders **outside** the page's CSS cascade, so it can't use `var(--*)` tokens or the page's webfont. Hardcode the color values and use a safe system-font fallback stack. **SVG comments can't contain a double hyphen (`--`) anywhere** — this silently produces invalid XML, and browsers fall back to a blank/default icon with no visible error; spell out token names in comments instead of writing `var(--x)` literally.
+  2. An in-app logo component, which *does* run inside the page — use the real design tokens and webfont here as the source of truth; the favicon is a manually-synced snapshot of it, not the reverse.
+- **Contrast check both places:** make sure the badge's background is distinguishably different from the surface it sits on (e.g. a dark sidebar), or the edges will disappear.
+- **Favicon caching:** after changing the favicon, a normal/hard refresh often won't show it — browsers cache favicons separately. Verify by hitting the SVG URL directly in a new tab or an incognito window.
+
+
 ## Testing
 
 ### Unit (Jest + React Testing Library)
